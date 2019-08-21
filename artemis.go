@@ -52,7 +52,7 @@ func (artemis *Artemis) Uptime() (*jolokia.ReadData, error) {
 }
 
 // CreateAddress create an address.
-func (artemis *Artemis) CreateAddress(addressName string, queueName string, routingType string) (*jolokia.ExecData, error) {
+func (artemis *Artemis) CreateAddress(addressName string, routingType string) (*jolokia.ExecData, error) {
 
 	url := "org.apache.activemq.artemis:broker=\\\"" + artemis.name + "\\\""
 	routingType = strings.ToUpper(routingType)
