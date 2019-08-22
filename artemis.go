@@ -158,6 +158,18 @@ func (artemis *Artemis) DeleteAddressForce(addressName string, force bool) (*jol
 	return data, err
 }
 
+// DeleteDivert create a divert.
+func (artemis *Artemis) DeleteDivert(name string) (*jolokia.ExecData, error) {
+
+	url := "org.apache.activemq.artemis:broker=\\\"" + artemis.name + "\\\""
+	parameters := `"` + name + `"`
+	jsonStr := `{ "type":"EXEC","mbean":"` + url + `","operation":"destroyDivert(java.lang.String)","arguments":[` + parameters + `]` + ` }`
+	data, err := artemis.jolokia.Exec(url, jsonStr)
+
+	return data, err
+
+}
+
 // RemoveUser remove user.
 func (artemis *Artemis) RemoveUser(userName string) (*jolokia.ExecData, error) {
 
