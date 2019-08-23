@@ -12,7 +12,7 @@ type IArtemis interface {
 	NewArtemis(_ip string, _jolokiaPort string, _name string) *Artemis
 	Uptime() (*jolokia.ReadData, error)
 	CreateAddress(addressName string, routingType string) (*jolokia.ExecData, error)
-	CreateDivert(name string, routingName string, address string, forwardingAddress string, exclusive bool, filterString string, transformerClass string) (*jolokia.ExecData, error)
+	CreateDivert(name string, routingName string, address string, forwardingAddress string, exclusive bool, filterString string, transformerClass string, filter string, transformer string) (*jolokia.ExecData, error)
 	CreateQueue(addressName string, queueName string, routingType string) (*jolokia.ExecData, error)
 	CreateUser(userName string, password string, roles string) (*jolokia.ExecData, error)
 	AddSecuritySetting(addressMatch string, send string, consume string, createDurableQueueRoles string, deleteDurableQueueRoles string, createNonDurableQueueRoles string, deleteNonDurableQueueRoles string, manage string) (*jolokia.ExecData, error)
@@ -80,10 +80,10 @@ func (artemis *Artemis) CreateQueue(addressName string, queueName string, routin
 }
 
 // CreateDivert create a divert.
-func (artemis *Artemis) CreateDivert(name string, routingName string, address string, forwardingAddress string, exclusive bool) (*jolokia.ExecData, error) {
+func (artemis *Artemis) CreateDivert(name string, routingName string, address string, forwardingAddress string, exclusive bool, filter string, transformer string) (*jolokia.ExecData, error) {
 
 	url := "org.apache.activemq.artemis:broker=\\\"" + artemis.name + "\\\""
-	parameters := `"` + name + `","` + routingName + `","` + address + `","` + forwardingAddress + `","` + strconv.FormatBool(exclusive) + `","","org.apache.activemq.artemis.core.server.transformer.AddHeadersTransformer"`
+	parameters := `"` + name + `","` + routingName + `","` + address + `","` + forwardingAddress + `","` + strconv.FormatBool(exclusive) + `","` + filter + `","` + transformer + `"`
 	jsonStr := `{ "type":"EXEC","mbean":"` + url + `","operation":"createDivert(java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean,java.lang.String,java.lang.String)","arguments":[` + parameters + `]` + ` }`
 	data, err := artemis.jolokia.Exec(url, jsonStr)
 
