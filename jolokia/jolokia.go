@@ -111,11 +111,10 @@ func (j *Jolokia) Read(_path string) (*ReadData, error) {
 		}
 
 		bodyString := string(body)
-		jdata.Value = bodyString
-		// err = json.Unmarshal([]byte(bodyString), jdata)
-		// if err != nil {
-		// 	break
-		// }
+		err = json.Unmarshal([]byte(bodyString), jdata)
+		if err != nil {
+			break
+		}
 
 		break
 	}
@@ -156,10 +155,11 @@ func (j *Jolokia) Exec(_path string, _postJsonString string) (*ExecData, error) 
 		}
 
 		bodyString := string(body)
-		err = json.Unmarshal([]byte(bodyString), jdata)
-		if err != nil {
-			break
-		}
+		jdata.Value = bodyString
+		// err = json.Unmarshal([]byte(bodyString), jdata)
+		// if err != nil {
+		// 	break
+		// }
 
 		break
 	}
