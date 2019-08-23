@@ -25,7 +25,7 @@ type ExecData struct {
 	Value     string       `json:"value"`
 	Timestamp int          `json:"timestamp"`
 	Status    int          `json:"status"`
-	Error     int          `json:"error"`
+	Error     string       `json:"error"`
 }
 
 type ReadRequest struct {
