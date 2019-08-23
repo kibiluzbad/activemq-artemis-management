@@ -83,7 +83,7 @@ func (artemis *Artemis) CreateQueue(addressName string, queueName string, routin
 func (artemis *Artemis) CreateDivert(name string, routingName string, address string, forwardingAddress string, exclusive bool) (*jolokia.ExecData, error) {
 
 	url := "org.apache.activemq.artemis:broker=\\\"" + artemis.name + "\\\""
-	parameters := `"` + name + `","` + routingName + `","` + address + `","` + forwardingAddress + `","` + strconv.FormatBool(exclusive) + `","","''"`
+	parameters := `"` + name + `","` + routingName + `","` + address + `","` + forwardingAddress + `","` + strconv.FormatBool(exclusive) + `","",''`
 	jsonStr := `{ "type":"EXEC","mbean":"` + url + `","operation":"createDivert(java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean,java.lang.String,java.lang.String)","arguments":[` + parameters + `]` + ` }`
 	data, err := artemis.jolokia.Exec(url, jsonStr)
 
