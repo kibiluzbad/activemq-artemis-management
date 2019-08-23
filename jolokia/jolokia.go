@@ -25,6 +25,7 @@ type ExecData struct {
 	Value     string       `json:"value"`
 	Timestamp int          `json:"timestamp"`
 	Status    int          `json:"status"`
+	Error     int          `json:"error"`
 }
 
 type ReadRequest struct {
@@ -155,11 +156,10 @@ func (j *Jolokia) Exec(_path string, _postJsonString string) (*ExecData, error) 
 		}
 
 		bodyString := string(body)
-		jdata.Value = bodyString
-		// err = json.Unmarshal([]byte(bodyString), jdata)
-		// if err != nil {
-		// 	break
-		// }
+		err = json.Unmarshal([]byte(bodyString), jdata)
+		if err != nil {
+			break
+		}
 
 		break
 	}
